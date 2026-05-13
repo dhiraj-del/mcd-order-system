@@ -1,32 +1,13 @@
-package main
-
 import (
-	"database/sql"
-	"log"
-
-	_ "modernc.org/sqlite"
+    "fmt"
+    "net/http"
 )
 
-var db *sql.DB
+func main() {
+    initDB()
 
-func InitDB() {
-	var err error
-	db, err = sql.Open("sqlite", "order.db")
-	if err != nil {
-		log.Fatal(err)
-	}
+    http.HandleFunc("/api/orders", orderHandler)
 
-	// テーブル作成
-	query := `
-	CREATE TABLE IF NOT EXISTS order_items (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		menu_name TEXT,
-		quantity INTEGER,
-		status TEXT DEFAULT 'pending',
-		created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-	);`
-	_, err = db.Exec(query)
-	if err != nil {
-		log.Fatal(err)
-	}
+    fmt.Println("Server starting on http://localhost:8080&quot;)
+    http.ListenAndServe(":8080", nil)
 }
