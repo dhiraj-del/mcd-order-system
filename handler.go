@@ -1,10 +1,9 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
-	"log"
 	"net/http"
-	"strings"
 )
 
 // १०.१ /api/orders (दर्ता र सूची)
